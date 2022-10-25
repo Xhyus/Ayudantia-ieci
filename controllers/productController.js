@@ -1,12 +1,13 @@
 const Product = require('../models/product');
 
 const createProduct = (req, res) => {
-    const { name, price, quantity, description } = req.body;
+    const { name, price, quantity, description, category } = req.body;
     const newProduct = new Product({
         name,
         price,
         quantity,
-        description
+        description,
+        category
     });
     newProduct.save((err, product) => {
         if (err) {
@@ -26,14 +27,14 @@ const getProducts = (req, res) => {
 
 const getSpecificProduct = (req, res) => {
     const { id } = req.params;
-    Product.findById(id, (err, products) => {
+    Product.findById(id).populate({ path: 'category' }).exec((err, product) => {
         if (err) {
             return res.status(400).send({ message: "Error al obtener el producto" })
         }
-        if (!products) {
+        if (!product) {
             return res.status(404).send({ message: "Producto no encontrado" })
         }
-        return res.status(200).send(products)
+        return res.status(200).send(product)
     })
 }
 
