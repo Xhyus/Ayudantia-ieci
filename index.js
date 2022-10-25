@@ -5,11 +5,14 @@ require('dotenv').config();
 
 const app = express();
 const productRoutes = require('./routes/productRoutes');
+const categoryRoutes = require('./routes/categoryRoutes')
 
 app.use(cors())
 app.use(express.json());
 app.options('*', cors());
 app.use('/api', productRoutes);
+app.use('/api', categoryRoutes);
+
 
 
 app.listen(process.env.PORT, () => {
