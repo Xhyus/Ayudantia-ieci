@@ -24,7 +24,51 @@ const getProducts = (req, res) => {
     })
 }
 
+const getSpecificProduct = (req, res) => {
+    const { id } = req.params;
+    Product.findById(id, (err, products) => {
+        if (err) {
+            return res.status(400).send({ message: "Error al obtener el producto" })
+        }
+        if (!products) {
+            return res.status(404).send({ message: "Producto no encontrado" })
+        }
+        return res.status(200).send(products)
+    })
+}
+
+const updateProduct = (req, res) => {
+    const { id } = req.params;
+    Product.findByIdAndUpdate(id, req.body, (err, products) => {
+        if (err) {
+            return res.status(400).send({ message: "Error al obtener el producto" })
+        }
+        if (!products) {
+            return res.status(404).send({ message: "Producto no encontrado" })
+        }
+        return res.status(200).send(products)
+    })
+}
+
+
+const deleteProduct = (req, res) => {
+    const { id } = req.params;
+    Product.findByIdAndDelete(id, (err, products) => {
+        if (err) {
+            return res.status(400).send({ message: "Error al obtener el producto" })
+        }
+        if (!products) {
+            return res.status(404).send({ message: "Producto no encontrado" })
+        }
+        return res.status(200).send(products)
+    })
+}
+
+
 module.exports = {
     createProduct,
-    getProducts
+    getProducts,
+    getSpecificProduct,
+    updateProduct,
+    deleteProduct
 }
