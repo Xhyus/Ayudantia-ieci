@@ -51,7 +51,6 @@ const updateProduct = (req, res) => {
     })
 }
 
-
 const deleteProduct = (req, res) => {
     const { id } = req.params;
     Product.findByIdAndDelete(id, (err, products) => {

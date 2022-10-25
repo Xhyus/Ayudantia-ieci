@@ -1,6 +1,8 @@
 const Category = require('../models/category');
+const Product = require('../models/product')
 
 const createCategory = (req, res) => {
+    const { id } = req.params
     const { name } = req.body
     const newCategory = new Category({
         name
@@ -9,7 +11,15 @@ const createCategory = (req, res) => {
         if (err) {
             return res.status(400).send({ message: "No se ha podido crear la categoria" })
         }
-        return res.status(201).send(category)
+        Product.findByIdAndUpdate(id, { category: category }, (err, product) => {
+            if (err) {
+                return res.status(400).send({ message: "No se ha podido crear la categoria" })
+            }
+            if (!product) {
+                return res.status(404).send({ message: "No existe el producto" })
+            }
+            return res.status(201).send(category)
+        })
     })
 }
 
