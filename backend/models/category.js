@@ -3,7 +3,8 @@ const Schema = mongoose.Schema;
 const CategorySchema = new Schema({
     name: {
         type: String,
-        required: true
+        required: true,
+        match: /^[a-zA-Z0-9]+$/,
     }
 })
 
