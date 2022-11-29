@@ -40,6 +40,7 @@ const getSpecificProduct = (req, res) => {
 
 const updateProduct = (req, res) => {
     const { id } = req.params;
+    console.log("id", id, "body", req.body)
     Product.findByIdAndUpdate(id, req.body, (err, products) => {
         if (err) {
             return res.status(400).send({ message: "Error al obtener el producto" })
@@ -64,11 +65,17 @@ const deleteProduct = (req, res) => {
     })
 }
 
+const login = (req, res) => {
+    return res.status(200).send({ message: "Se ha logeado correctamente" })
+
+}
+
 
 module.exports = {
     createProduct,
     getProducts,
     getSpecificProduct,
     updateProduct,
-    deleteProduct
+    deleteProduct,
+    login
 }
