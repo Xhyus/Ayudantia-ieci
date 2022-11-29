@@ -1,49 +1,42 @@
-import { useState } from 'react'
-import InputStack from '../components/InputStack'
-import { Button, Container, Heading, HStack, Input, Stack } from '@chakra-ui/react'
+import { useState, useEffect } from 'react'
+import { Button, Container, Heading, HStack, Input, Stack, Table, Thead, Tr, Td, Th, Tbody, FormControl, FormLabel } from '@chakra-ui/react'
+import { getProducts } from '../data/products'
+import { useRouter } from 'next/router'
+import { login } from '../data/user'
 
 const index = () => {
 
-  const [boton, setBoton] = useState(false)
-  const [inputValue, setInputValue] = useState('')
-  console.log(inputValue)
+	const [rut, setRUT] = useState('')
+	const router = useRouter()
 
-  const imprimir = (e) => {
-    if (e.target.name === 'hola') {
-      setInputValue(e.target.value)
-    } else {
-      console.log("Este input es el incorrecto")
-    }
-  }
+	const handleChange = (e) => {
+		setRUT(e.target.value)
+	}
 
-  const opcion = () => {
-    if (boton) {
-      return "red"
-    } else {
-      return "blue"
-    }
-  }
+	const onSubmit = async (e) => {
+		e.preventDefault()
+		const response = await login(rut)
+		if (response.status === 200) {
+			localStorage.setItem('token', rut)
+			router.push('./productos')
+		}
+	}
 
+	return (
+		<>
+			<Container maxW="container.xl" centerContent>
+				<Heading as="h1" size="2xl" textAlign="center" mt="10">Que usuario ingresara</Heading>
+				<Stack my={5}>
+					<FormControl>
+						<FormLabel>Rut del usuario</FormLabel>
+						<Input onChange={handleChange} />
+					</FormControl>
+					<Button onClick={onSubmit} >Ingresar</Button>
+				</Stack>
+			</Container>
+		</>
 
-  return (
-    <>
-      <Container maxW="container.xl">
-        <Stack spacing={3} my={'40'} justify="center">
-          <Heading as="h1" size="2xl" textAlign={"center"} color={opcion}>Hola Mundo</Heading>
-          <HStack spacing={3} w={"full"}>
-            <InputStack type="text" value={inputValue} consolemsg="Hola mundo, este es el primer input" imprimir={setInputValue} />
-            <InputStack type="text" value="2" placeholder="Input 2" consolemsg="Hola mundo, este es el segundo input" imprimir={imprimir} />
-          </HStack>
-          <HStack spacing={3} w={"full"}>
-            <InputStack type="text" value="3" placeholder="Input 3" consolemsg="Hola mundo, este es el tercer input" imprimir={imprimir} />
-            <Input type="text" name='hola' onChange={imprimir} />
-          </HStack>
-          <Button colorScheme={'cyan'} onClick={() => setBoton(!boton)} size="sm">Submit</Button>
-        </Stack>
-      </Container>
-    </>
-
-  )
+	)
 }
 
 export default index
