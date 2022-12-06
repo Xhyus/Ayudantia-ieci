@@ -5,13 +5,12 @@ const getProducts = async () => {
     return response
 }
 
-const createProduct = (product, rut) => {
+const createProduct = (product) => {
     const response = axios.post(`${process.env.SERVIDOR}/product`, {
         name: product.name,
         price: product.price,
         quantity: product.quantity,
         description: product.description,
-        rut: rut
     });
     return response
 }
