@@ -44,7 +44,7 @@ const productos = () => {
         <>
             <Container maxW="container.xl">
                 <Heading as="h1" size="2xl" textAlign="center" mt="10"> Listado de productos </Heading>
-                <Button colorScheme="blue" mt="10" mb="10" onClick={() => router.push('./productos')}>Agregar producto</Button>
+                <Button colorScheme="blue" mt="10" mb="10" onClick={() => router.push('/product/crear')}>Agregar producto</Button>
                 <Stack spacing={4} mt="10">
                     <Table variant="simple">
                         <Thead>
